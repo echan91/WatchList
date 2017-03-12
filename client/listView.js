@@ -1,4 +1,4 @@
-angular.module('app')
+angular.module('list-app')
 
 .directive('listName', function() {
   return {

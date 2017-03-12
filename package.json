@@ -29,6 +29,7 @@
     "express": "^4.15.2",
     "express-partials": "^0.3.0",
     "express-session": "^1.15.1",
+    "google-finance": "^0.1.9",
     "lodash": "^4.17.4",
     "mongoose": "^4.8.6",
     "querystring": "^0.2.0",

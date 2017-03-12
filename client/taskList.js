@@ -1,7 +1,11 @@
-angular.module('app')
+angular.module('list-app')
 .controller('taskListController', function($scope) {
   console.log('task list controller: ', $scope);
-  this.task = ''
+  this.task = 'Add a stock here!'
+  this.add = (task) => {
+    this.addTask(task);
+    this.task = ''
+  }
 })
 
 .directive('taskList', function() {
@@ -16,10 +20,10 @@ angular.module('app')
     controller: 'taskListController',
     template: `<div id=tasks> 
                   <h2> {{ctrl.tasks.name}} </h2>
-                  <ul> 
-                  <input type="text" ng-submit="ctrl.addTask(ctrl.task)" ng-model="ctrl.task" value="ctrl.task"> 
-                  <button ng-click="ctrl.addTask(ctrl.task)"> Add Task </button>
-                  </ul>
+                  <form>
+                    <input type="text" ng-submit="ctrl.add(ctrl.task)" ng-model="ctrl.task" value="ctrl.task"> 
+                    <button ng-click="ctrl.add(ctrl.task)"> Add Ticker </button>
+                  </form>
                   <task-view ng-repeat="task in ctrl.tasks.task track by $index" task ="task" remove-task="ctrl.removeTask"> </task-view>
               </div>`
   };

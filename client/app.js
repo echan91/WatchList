@@ -1,12 +1,12 @@
-angular.module('app', [])
+angular.module('list-app')
 
 .controller('appController', function ($scope, $window, $http) {
   console.log('app: ', $scope)
 
   this.lists = $window.exampleData;
-  this.listName = ''
+  this.listName = 'Add a list here!'
 
-  this.currentList = this.lists[0];
+  this.currentList = ''
 
   this.getLists = () => {
     var context = this;
@@ -14,7 +14,7 @@ angular.module('app', [])
     .then(
       function(results) {
         context.lists = results.data;
-        context.currentList = context.lists[0]
+        context.currentList=results.data[0]
       }, function(error) {
         console.log('error: ', error);
       }
@@ -43,10 +43,10 @@ angular.module('app', [])
   this.addList = (name) => {
     //Needs to be a put request to server to add a new object {name: <string>, tasks: [array of tasks]}
     var context = this;
-    console.log('trying to submit!', name)
     $http.post('http://127.0.0.1:3000/list/addList', {'name': name} )
     .then(function(success) {
       context.getLists();
+      context.listName = '';
     }, function(error) {
       console.log('error', error);
     })
@@ -55,13 +55,9 @@ angular.module('app', [])
   this.addTask = (task) => {
     //Needs to be a put request then an immediate fetch afterwards to re-render task list view 
     var context = this;
-    console.log('adding task ', task);
     $http({
       method: 'POST',
       url:'http://127.0.0.1:3000/list/addTask',
-      headers: {
-       'Content-Type': 'application/json'
-       },
       data: {
         name: context.currentList.name,
         task: task
@@ -114,7 +110,6 @@ angular.module('app', [])
 .directive('app', function() {
   return {
     scope: {
-      listName: '<'
     },
     controller: 'appController',
     bindToController: true,
@@ -123,8 +118,10 @@ angular.module('app', [])
               <div id="interface" class="container row">
                 <div class="col-md-4">
                   <h2> Lists </h2>
-                  <input type="text" ng-model="ctrl.listName" ng-submit="ctrl.addList(ctrl.listName)" value="ctrl.listName"/>
-                  <button ng-click="ctrl.addList(ctrl.listName)"> Add List </button>
+                  <form>
+                    <input type="text" ng-model="ctrl.listName" ng-submit="ctrl.addList(ctrl.listName)" value="ctrl.listName"/>
+                    <button ng-click="ctrl.addList(ctrl.listName)"> Add List </button>
+                  </form>
                   <lists list="ctrl.lists" select="ctrl.selectList" remove-list="ctrl.removeList"> </lists>
                 </div>
                 <div class="col-md-8">

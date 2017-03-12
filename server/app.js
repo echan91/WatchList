@@ -61,29 +61,6 @@ app.post('/list/removeList', function(req, res) {
 app.post('/list/getList', function(req, res) {
   handler.getList(req, res);
 });
-//
-// app.options('/list/addTask', function(req, res) { //Expect to receive 
-//   //Add an element to our list array
-//   handler.addTask(req, res);
-// });
-
-// app.options('/list/removeTask', function(req, res) {
-//   handler.removeTask(req, res);
-// })
-
-// app.options('/list/addList', function(req, res) {
-//   console.log('OPTIONS it goes here', req.body);
-//   //Create a new object in our database
-//   handler.addList(req, res);
-// });
-
-// app.options('/list/removeList', function(req, res) {
-//   handler.removeList(req, res);
-// });
-
-// app.options('/list/getList', function(req, res) {
-//   handler.getList(req, res);
-// });
 
 
 module.exports = app;
