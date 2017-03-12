@@ -24,7 +24,10 @@ angular.module('list-app')
                     <input type="text" ng-submit="ctrl.add(ctrl.task)" ng-model="ctrl.task" value="ctrl.task"> 
                     <button ng-click="ctrl.add(ctrl.task)"> Add Ticker </button>
                   </form>
-                  <task-view ng-repeat="task in ctrl.tasks.task track by $index" task ="task" remove-task="ctrl.removeTask"> </task-view>
+                  <div>
+                    <task-view ng-repeat="task in ctrl.tasks.task track by $index" task ="task" remove-task="ctrl.removeTask"> 
+                    </task-view>
+                  </div>
               </div>`
   };
 });

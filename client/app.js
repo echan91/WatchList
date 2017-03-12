@@ -3,10 +3,10 @@ angular.module('list-app')
 .controller('appController', function ($scope, $window, $http) {
   console.log('app: ', $scope)
 
-  this.lists = $window.exampleData;
-  this.listName = 'Add a list here!'
+  this.lists;
+  this.listName;
 
-  this.currentList = ''
+  this.currentList = {name: "No list selected!", task: []}
 
   this.getLists = () => {
     var context = this;
@@ -14,7 +14,6 @@ angular.module('list-app')
     .then(
       function(results) {
         context.lists = results.data;
-        context.currentList=results.data[0]
       }, function(error) {
         console.log('error: ', error);
       }
@@ -36,6 +35,8 @@ angular.module('list-app')
   }
   
   this.selectList = (list) => {
+    this.currentList = {name: '', task: []};
+    this.getList(this.currentList);
     this.currentList = list;
     this.getList(this.currentList);
   };
@@ -103,8 +104,7 @@ angular.module('list-app')
       console.log('something messed up removing the list');
     })
   };
-
-  this.getLists()
+  this.getLists();
 })
 
 .directive('app', function() {
