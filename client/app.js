@@ -4,13 +4,12 @@ angular.module('app', [])
   console.log('app: ', $scope)
 
   this.lists = $window.exampleData;
-  this.listName = 'Add new list'
+  this.listName = ''
 
   this.currentList = this.lists[0];
 
   this.getLists = () => {
     var context = this;
-    console.log('trying to get lists')
     $http.get('http://127.0.0.1:3000/list/getLists')
     .then(
       function(results) {
@@ -24,10 +23,12 @@ angular.module('app', [])
 
   this.getList = (list) => {
     var context = this;
+    var nextList;
     $http.post('http://127.0.0.1:3000/list/getList', {name: list.name})
     .then(
       function(results) {
-        console.log('results ', results);
+        console.log('results ', results.data[0]);
+        context.currentList = results.data[0];
       }, function(error) {
         console.log('error: ', error);
       }
@@ -36,23 +37,15 @@ angular.module('app', [])
   
   this.selectList = (list) => {
     this.currentList = list;
+    this.getList(this.currentList);
   };
 
-  this.createList = (name) => {
+  this.addList = (name) => {
     //Needs to be a put request to server to add a new object {name: <string>, tasks: [array of tasks]}
     var context = this;
-    $http({
-      method: 'POST',
-      url:'http://127.0.0.1:3000/list/addList',
-      headers: {
-       'Content-Type': 'application/json'
-       },
-      data: {
-        name: name
-      }
-    })
+    console.log('trying to submit!', name)
+    $http.post('http://127.0.0.1:3000/list/addList', {'name': name} )
     .then(function(success) {
-      context.currentList = success;
       context.getLists();
     }, function(error) {
       console.log('error', error);
@@ -62,18 +55,20 @@ angular.module('app', [])
   this.addTask = (task) => {
     //Needs to be a put request then an immediate fetch afterwards to re-render task list view 
     var context = this;
+    console.log('adding task ', task);
     $http({
       method: 'POST',
-      url:'http://127.0.0.1:3000/list/addList',
+      url:'http://127.0.0.1:3000/list/addTask',
       headers: {
        'Content-Type': 'application/json'
        },
       data: {
-        name: name
+        name: context.currentList.name,
+        task: task
       }
     })
     .then(function(success) {
-      context.getList(success);
+      context.getList(context.currentList);
     })
   };
 
@@ -86,12 +81,12 @@ angular.module('app', [])
        'Content-Type': 'application/json'
        },
       data: {
-        name: context.currentList.name,
+        name: context.currentList.name, 
         task: task
       }
     })
     .then(function(success) {
-      context.getList();
+      context.getList(context.currentList);
     }, function(error) {
       console.log('error', error);
     })
@@ -113,7 +108,7 @@ angular.module('app', [])
     })
   };
 
-  // this.getLists()
+  this.getLists()
 })
 
 .directive('app', function() {
@@ -128,11 +123,13 @@ angular.module('app', [])
               <div id="interface" class="container row">
                 <div class="col-md-4">
                   <h2> Lists </h2>
-                  <input type="text" ng-model="ctrl.listName" ng-submit="ctrl.createList(ctrl.listName)" value="ctrl.listName"/>
-                  <lists list="ctrl.lists" select="ctrl.selectList"> </lists>
+                  <input type="text" ng-model="ctrl.listName" ng-submit="ctrl.addList(ctrl.listName)" value="ctrl.listName"/>
+                  <button ng-click="ctrl.addList(ctrl.listName)"> Add List </button>
+                  <lists list="ctrl.lists" select="ctrl.selectList" remove-list="ctrl.removeList"> </lists>
                 </div>
                 <div class="col-md-8">
-                  <task-list tasks="ctrl.currentList" addTask="ctrl.addTask"> </task-list>
+                  <task-list tasks="ctrl.currentList" add-task="ctrl.addTask" remove-task="ctrl.removeTask"> 
+                  </task-list>
                 </div>
               </div>`
   };

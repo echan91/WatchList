@@ -4,6 +4,7 @@ angular.module('app')
   return {
     scope: {
       task: '<',
+      removeTask: '<'
     },
     bindToController: true,
     controllerAs: 'ctrl',
@@ -11,7 +12,7 @@ angular.module('app')
       console.log('task view: ', $scope);
     },
     template: `
-      <ul> {{ctrl.task}} </ul>
+      <ul ng-dblclick="ctrl.removeTask(ctrl.task)"> {{ctrl.task}} </ul>
     `
   };
 });

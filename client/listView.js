@@ -4,13 +4,14 @@ angular.module('app')
   return {
     scope: {
       list: '<',
-      select: '<'
+      select: '<',
+      removeList: '<'
     },
     bindToController: true,
     controllerAs: 'ctrl',
     controller: function($scope) {
       console.log('list name: ', $scope);
     },
-    template: `<h4 ng-click="ctrl.select(ctrl.list)"> {{ctrl.list.name}} </h4>`
+    template: `<h4 ng-click="ctrl.select(ctrl.list)" ng-dblclick="ctrl.removeList(ctrl.list)"> {{ctrl.list.name}} </h4>`
   };
 });

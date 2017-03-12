@@ -4,7 +4,8 @@ angular.module('app')
   return {
     scope: {
       list: '<',
-      select: '<'
+      select: '<',
+      removeList: '<'
     },
     bindToController: true,
     controllerAs: 'ctrl',
@@ -13,7 +14,7 @@ angular.module('app')
     },
     template: `
               <div id="lists">
-                <list-name ng-repeat="list in ctrl.list" list="list" select="ctrl.select"> </list-name>
+                <list-name ng-repeat="list in ctrl.list" list="list" select="ctrl.select" remove-list="ctrl.removeList"> </list-name>
               </div>
               `
   };
