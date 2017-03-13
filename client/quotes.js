@@ -27,12 +27,14 @@ angular.module('list-app')
     controllerAs: 'ctrl',
     controller: 'quoteController',
     template: `
+      <td>
       <span class="ticker" ng-init="ctrl.getData(ctrl.ticker)"> 
         {{ctrl.tickerPrice}}
       </span>
-      <span class="ticker">
+      </td>
+      <td>
         {{ctrl.lastTraded}}
-      </span>
+      </td>
     `
   };
 });

@@ -1,7 +1,7 @@
 angular.module('list-app')
 .controller('taskListController', function($scope) {
   console.log('task list controller: ', $scope);
-  this.task = 'Add a stock here!'
+  this.task = ''
   this.add = (task) => {
     this.addTask(task);
     this.task = ''
@@ -25,8 +25,17 @@ angular.module('list-app')
                     <button ng-click="ctrl.add(ctrl.task)"> Add Ticker </button>
                   </form>
                   <div>
-                    <task-view ng-repeat="task in ctrl.tasks.task track by $index" task ="task" remove-task="ctrl.removeTask"> 
-                    </task-view>
+                  <table class="table">
+                    <tr>
+                      <th> Ticker </th>
+                      <th> Price </th>
+                      <th> Change </th>
+                      <th> Last Traded </th>
+                    </tr>
+                    <tr task-view ng-repeat="task in ctrl.tasks.task track by $index" task ="task"
+                    ng-dblclick="ctrl.removeTask(task)"> 
+                    </tr>
+                  </table>
                   </div>
               </div>`
   };
